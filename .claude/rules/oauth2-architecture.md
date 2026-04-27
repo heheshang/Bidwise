@@ -17,7 +17,7 @@
 - 校验方法命名：validateXxx，如 validateClientExists
 - 缓存相关方法命名：xxxFromCache，如 getClientFromCache
 
-### DAL 层 - MySQL Mapper
+### DAL 层 - PostgreSQL Mapper
 - 继承 ExtBaseMapper<T>（不是原生 BaseMapper）
 - 查询方法用 default 方法 + LambdaQueryChain
 - 分页查询方法命名：queryPage

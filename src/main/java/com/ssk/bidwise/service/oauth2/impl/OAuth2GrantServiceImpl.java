@@ -6,7 +6,7 @@ import com.ssk.bidwise.common.exception.ErrorCode;
 import com.ssk.bidwise.dal.dataobject.oauth2.OAuth2ClientDO;
 import com.ssk.bidwise.dal.dataobject.oauth2.OAuth2CodeDO;
 import com.ssk.bidwise.dal.dataobject.system.UserDO;
-import com.ssk.bidwise.dal.mysql.system.UserMapper;
+import com.ssk.bidwise.dal.postgres.system.UserMapper;
 import com.ssk.bidwise.model.vo.oauth2.token.OAuth2AccessTokenRespVO;
 import com.ssk.bidwise.service.oauth2.OAuth2ApprovalService;
 import com.ssk.bidwise.service.oauth2.OAuth2ClientService;

@@ -4,3 +4,26 @@ spring:
   ai:
     dashscope:
         api-key: ${DASHSCOPE_API_KEY}
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bidwise
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:
+      database: 0
+  flyway:
+    enabled: true              # 开启 Flyway
+    locations: classpath:db/migration  # SQL 脚本存放位置
+    baseline-on-migrate: true  # 已有表也能自动适配
+    validate-on-migrate: false
+    encoding: UTF-8
+  mybatis-plus:
+    configuration:
+      map-underscore-to-camel-case: true
+    global-config:
+      db-config:
+        id-type: assign_id

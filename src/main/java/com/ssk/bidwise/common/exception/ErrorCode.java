@@ -44,6 +44,17 @@ public enum ErrorCode {
     OAUTH2_GRANT_TYPE_NOT_SUPPORTED(1002020051, "不支持该授权类型"),
     OAUTH2_SCOPE_NOT_APPROVED(1002020061, "授权范围未获得用户批准"),
 
+    // ========== RBAC 错误（100203xxx）==========
+    ROLE_NOT_EXIST(1002030001, "角色不存在"),
+    ROLE_CODE_DUPLICATE(1002030002, "角色编码已存在"),
+    ROLE_CANNOT_MODIFY_CODE(1002030003, "内置角色编码不允许修改"),
+    ROLE_CANNOT_DELETE_SYSTEM(1002030004, "内置角色不允许删除"),
+    MENU_NOT_EXIST(1002030101, "菜单不存在"),
+    MENU_PERMISSION_DUPLICATE(1002030102, "权限标识已存在"),
+    MENU_PARENT_NOT_EXIST(1002030103, "父菜单不存在"),
+    MENU_PARENT_INVALID(1002030104, "不能选择自己作为父菜单"),
+    MENU_HAS_CHILDREN(1002030105, "存在子菜单，不能删除"),
+
     // ========== 用户错误 ==========
     USER_NOT_EXIST(2002, "用户不存在"),
     USER_PASSWORD_ERROR(2003, "用户名或密码错误"),

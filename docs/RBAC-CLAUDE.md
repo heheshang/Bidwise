@@ -3,7 +3,7 @@
 ## 技术栈
 - Java 21 + Spring Boot 3.x
 - MyBatis-Plus 持久层
-- MySQL 8.0 + Redis（权限缓存）
+- PostgreSQL 15+ + Redis（权限缓存）
 - Maven 构建
 - MapStruct（对象转换）
 - Spring Security（权限注解）
@@ -31,7 +31,7 @@ com.example.auth/
 │                                  # PermissionService + 各自 Impl
 ├── dal/
 │   ├── dataobject/permission/     # RoleDO, MenuDO, RoleMenuDO, UserRoleDO
-│   ├── mysql/permission/          # 对应 Mapper 接口
+│   ├── postgres/permission/        # 对应 Mapper 接口
 │   └── redis/permission/          # RoleMenuRedisCache, UserRoleRedisCache
 ├── converter/
 │   └── permission/                # PermissionConverter（MapStruct）

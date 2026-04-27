@@ -18,5 +18,5 @@
 
 ## Redis 缓存安全
 - Token 存 Redis 时，TTL 必须与 expiresTime 一致，禁止设为 -1
-- 删除 Token 时必须同时删 MySQL 和 Redis
+- 删除 Token 时必须同时删 PostgreSQL 和 Redis
 - 清理多余字段（updater, updateTime, creator, createTime, deleted）后再缓存

@@ -3,7 +3,7 @@
 ## 技术栈
 - Java 21 + Spring Boot 3.x
 - MyBatis-Plus 持久层
-- MySQL 8.0 + Redis（Token缓存）
+- PostgreSQL 15+ + Redis（Token缓存）
 - Maven 构建
 - MapStruct（对象转换）
 
@@ -11,7 +11,7 @@
 本模块是系统的**认证授权中心**，参考企业级开源项目的 OAuth2 实现。
 - 自实现 OAuth2 Server（不依赖 Spring Authorization Server）
 - 支持四种授权模式：authorization_code / password / client_credentials / refresh_token
-- Token 双存储：MySQL 持久化 + Redis 缓存（热数据）
+- Token 双存储：PostgreSQL 持久化 + Redis 缓存（热数据）
 - SSO 单点登录基于 authorization_code 模式实现
 
 ## 包结构（参照企业级规范）
@@ -34,7 +34,7 @@ com.example.auth/
 ├── dal/
 │   ├── dataobject/oauth2/     # OAuth2ClientDO, OAuth2AccessTokenDO,
 │   │                          # OAuth2RefreshTokenDO, OAuth2CodeDO, OAuth2ApprovalDO
-│   ├── mysql/oauth2/          # 对应 Mapper 接口
+│   ├── postgres/oauth2/        # 对应 Mapper 接口
 │   └── redis/oauth2/          # OAuth2AccessTokenRedisCache（Redis缓存层）
 ├── converter/
 │   ├── auth/                  # AuthConverterer（MapStruct）

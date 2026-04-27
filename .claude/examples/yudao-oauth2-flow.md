@@ -22,11 +22,11 @@ OAuth2EndpointController.postAccessToken(grant_type=authorization_code)
   → oauth2GrantService.grantCodeForToken()
     → oauth2CodeService.redeemAuthCode() // 消费 code（用后即删）
     → oauth2TokenService.createAccessToken() // 生成 token
-      → 写 MySQL
+      → 写 PostgreSQL
       → 写 Redis（oauth2AccessTokenRedisCache.set()）
 
 ### 3. 校验 token
 OAuth2EndpointController.checkToken()
   → oauth2TokenService.checkAccessToken()
     → oauth2AccessTokenRedisCache.get() // 先查 Redis
-    → 或 oauth2AccessTokenMapper.findByAccessToken() // Redis 未命中查 MySQL
+    → 或 oauth2AccessTokenMapper.findByAccessToken() // Redis 未命中查 PostgreSQL

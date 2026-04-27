@@ -6,8 +6,8 @@ import com.ssk.bidwise.common.exception.ErrorCode;
 import com.ssk.bidwise.dal.dataobject.oauth2.OAuth2AccessTokenDO;
 import com.ssk.bidwise.dal.dataobject.oauth2.OAuth2ClientDO;
 import com.ssk.bidwise.dal.dataobject.oauth2.OAuth2RefreshTokenDO;
-import com.ssk.bidwise.dal.mysql.oauth2.OAuth2AccessTokenMapper;
-import com.ssk.bidwise.dal.mysql.oauth2.OAuth2RefreshTokenMapper;
+import com.ssk.bidwise.dal.postgres.oauth2.OAuth2AccessTokenMapper;
+import com.ssk.bidwise.dal.postgres.oauth2.OAuth2RefreshTokenMapper;
 import com.ssk.bidwise.dal.redis.oauth2.OAuth2AccessTokenRedisCache;
 import com.ssk.bidwise.dal.redis.oauth2.OAuth2RefreshTokenRedisCache;
 import com.ssk.bidwise.model.vo.oauth2.open.OAuth2OpenAccessTokenRespVO;
@@ -130,7 +130,7 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
         OAuth2AccessTokenDO accessTokenDO = oAuth2AccessTokenMapper.selectOne(wrapper);
 
         if (accessTokenDO != null) {
-            // 删除 MySQL 记录
+            // 删除 PostgreSQL 记录
             oAuth2AccessTokenMapper.deleteById(accessTokenDO.getId());
             // 删除 Redis 缓存
             oAuth2AccessTokenRedisCache.remove(accessToken);
@@ -178,7 +178,7 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
             return null;
         }
 
-        // Redis 未命中，查 MySQL
+        // Redis 未命中，查 PostgreSQL
         LambdaQueryWrapper<OAuth2AccessTokenDO> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(OAuth2AccessTokenDO::getAccessToken, accessToken);
         OAuth2AccessTokenDO accessTokenDO = oAuth2AccessTokenMapper.selectOne(wrapper);

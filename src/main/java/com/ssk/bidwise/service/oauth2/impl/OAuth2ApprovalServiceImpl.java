@@ -2,7 +2,7 @@ package com.ssk.bidwise.service.oauth2.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ssk.bidwise.dal.dataobject.oauth2.OAuth2ApprovalDO;
-import com.ssk.bidwise.dal.mysql.oauth2.OAuth2ApprovalMapper;
+import com.ssk.bidwise.dal.postgres.oauth2.OAuth2ApprovalMapper;
 import com.ssk.bidwise.service.oauth2.OAuth2ApprovalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

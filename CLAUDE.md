@@ -79,7 +79,7 @@ com.ssk.bidwise/
 │   ├── dataobject/                      # 数据对象 DO (对应数据库表)
 │   │   ├── oauth2/                     # OAuth2*DO
 │   │   └── permission/                 # RoleDO / MenuDO / RoleMenuDO / UserRoleDO
-│   ├── mysql/                           # Mapper 接口
+│   ├── postgres/                        # Mapper 接口
 │   │   ├── oauth2/                     # OAuth2*Mapper
 │   │   └── permission/                 # RoleMapper / MenuMapper
 │   └── redis/                           # Redis 缓存层
@@ -99,7 +99,7 @@ com.ssk.bidwise/
 │   ├── oauth2/                           # OAuth2Helper (HttpServletRequest 解析)
 │   └── permission/                      # PermissionHelper (权限工具)
 │
-├── mapper/                               # ⚠️ 废弃：通用 Mapper 已统一到 dal/mysql/
+├── mapper/                               # ⚠️ 废弃：通用 Mapper 已统一到 dal/postgres/
 ├── model/                                # ⚠️ 废弃：通用 entity/dto/vo 已统一到 dal + controller/vo
 ├── config/                               # 配置类
 ├── common/                               # 通用组件 → result/exception/constant/util
@@ -122,7 +122,7 @@ com.ssk.bidwise/
 
 ## 🔐 OAuth2 认证授权模块
 
-**特性**：自实现 OAuth2 Server，支持 4 种模式，Token 双存储 (MySQL + Redis)，SSO 基于 authorization_code
+**特性**：自实现 OAuth2 Server，支持 4 种模式，Token 双存储 (PostgreSQL + Redis)，SSO 基于 authorization_code
 
 **命名规范**：
 

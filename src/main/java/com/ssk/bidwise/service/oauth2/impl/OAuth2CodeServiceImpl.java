@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ssk.bidwise.common.exception.BusinessException;
 import com.ssk.bidwise.common.exception.ErrorCode;
 import com.ssk.bidwise.dal.dataobject.oauth2.OAuth2CodeDO;
-import com.ssk.bidwise.dal.mysql.oauth2.OAuth2CodeMapper;
+import com.ssk.bidwise.dal.postgres.oauth2.OAuth2CodeMapper;
 import com.ssk.bidwise.service.oauth2.OAuth2CodeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

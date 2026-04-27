@@ -1,4 +1,4 @@
-package com.ssk.bidwise.dal.mysql.oauth2;
+package com.ssk.bidwise.dal.postgres.oauth2;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ssk.bidwise.dal.dataobject.oauth2.OAuth2AccessTokenDO;

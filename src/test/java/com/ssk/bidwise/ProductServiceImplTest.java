@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ssk.bidwise.common.exception.BusinessException;
 import com.ssk.bidwise.common.vo.PageVO;
 import com.ssk.bidwise.dal.dataobject.system.ProductDO;
-import com.ssk.bidwise.dal.mysql.system.ProductMapper;
+import com.ssk.bidwise.dal.postgres.system.ProductMapper;
 import com.ssk.bidwise.model.converter.ProductConverter;
 import com.ssk.bidwise.model.dto.CreateProductRequest;
 import com.ssk.bidwise.model.dto.UpdateProductRequest;

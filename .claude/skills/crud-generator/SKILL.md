@@ -18,7 +18,7 @@ description: 自动生成标准 CRUD 全栈代码，遵循项目分层规范
 
 ## 生成文件（参照企业级目录结构）
 1. `dal/dataobject/{module}/{Entity}DO.java` — 数据对象 DO
-2. `dal/mysql/{module}/{Entity}Mapper.java` — Mapper（继承 BaseMapper）
+2. `dal/postgres/{module}/{Entity}Mapper.java` — Mapper（继承 BaseMapper）
 3. `model/dto/Create{Entity}Request.java` — 创建请求 DTO
 4. `model/dto/Update{Entity}Request.java` — 更新请求 DTO
 5. `model/vo/{Entity}VO.java` — 响应 VO

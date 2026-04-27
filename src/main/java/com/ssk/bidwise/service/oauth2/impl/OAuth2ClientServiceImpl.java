@@ -6,7 +6,7 @@ import com.ssk.bidwise.common.exception.ErrorCode;
 import com.ssk.bidwise.common.vo.PageVO;
 import com.ssk.bidwise.converter.oauth2.OAuth2ClientConverter;
 import com.ssk.bidwise.dal.dataobject.oauth2.OAuth2ClientDO;
-import com.ssk.bidwise.dal.mysql.oauth2.OAuth2ClientMapper;
+import com.ssk.bidwise.dal.postgres.oauth2.OAuth2ClientMapper;
 import com.ssk.bidwise.dal.redis.oauth2.OAuth2ClientRedisCache;
 import com.ssk.bidwise.model.vo.oauth2.client.OAuth2ClientPageReqVO;
 import com.ssk.bidwise.model.vo.oauth2.client.OAuth2ClientRespVO;
@@ -28,13 +28,12 @@ import org.springframework.util.StringUtils;
 public class OAuth2ClientServiceImpl implements OAuth2ClientService {
 
     private final OAuth2ClientMapper oAuth2ClientMapper;
-    private final OAuth2ClientConverter oAuth2ClientConverter;
     private final OAuth2ClientRedisCache oAuth2ClientRedisCache;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Long createClient(OAuth2ClientSaveReqVO reqVO) {
-        OAuth2ClientDO client = oAuth2ClientConverter.convert(reqVO);
+        OAuth2ClientDO client = OAuth2ClientConverter.INSTANCE.convert(reqVO);
         oAuth2ClientMapper.insert(client);
         return client.getId();
     }
@@ -49,7 +48,7 @@ public class OAuth2ClientServiceImpl implements OAuth2ClientService {
         if (existing == null) {
             throw new BusinessException(ErrorCode.DATA_NOT_EXIST, "OAuth2 客户端不存在");
         }
-        OAuth2ClientDO client = oAuth2ClientConverter.convert(reqVO);
+        OAuth2ClientDO client = OAuth2ClientConverter.INSTANCE.convert(reqVO);
         client.setId(reqVO.getId());
         oAuth2ClientMapper.updateById(client);
         oAuth2ClientRedisCache.remove(existing.getClientId());
@@ -84,7 +83,7 @@ public class OAuth2ClientServiceImpl implements OAuth2ClientService {
         pageVO.setSize(pageReqVO.getSize());
         pageVO.setTotal(result.getTotal());
         pageVO.setList(result.getRecords().stream()
-                .map(oAuth2ClientConverter::convert)
+                .map(OAuth2ClientConverter.INSTANCE::convert)
                 .toList());
         return pageVO;
     }
@@ -95,7 +94,7 @@ public class OAuth2ClientServiceImpl implements OAuth2ClientService {
         if (client == null) {
             throw new BusinessException(ErrorCode.DATA_NOT_EXIST, "OAuth2 客户端不存在");
         }
-        return oAuth2ClientConverter.convert(client);
+        return OAuth2ClientConverter.INSTANCE.convert(client);
     }
 
     @Override

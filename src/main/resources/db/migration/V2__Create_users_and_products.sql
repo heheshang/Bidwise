@@ -1,5 +1,5 @@
 -- ============================================
--- 用户和商品表
+-- 用户和商品表 (PostgreSQL)
 -- ============================================
 
 -- 1. 系统用户表
@@ -19,11 +19,10 @@ CREATE TABLE users (
 
     -- 唯一约束
     CONSTRAINT uk_users_username UNIQUE (username),
-    CONSTRAINT uk_users_email UNIQUE (email),
-
-    -- 索引
-    INDEX idx_users_status (status)
+    CONSTRAINT uk_users_email UNIQUE (email)
 );
+
+CREATE INDEX idx_users_status ON users(status);
 
 -- 2. 商品表
 CREATE TABLE products (
@@ -39,10 +38,9 @@ CREATE TABLE products (
     -- 必须字段
     create_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     update_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    is_deleted SMALLINT NOT NULL DEFAULT 0,
-
-    -- 索引
-    INDEX idx_products_user_id (user_id),
-    INDEX idx_products_status (status),
-    INDEX idx_products_create_time (create_time)
+    is_deleted SMALLINT NOT NULL DEFAULT 0
 );
+
+CREATE INDEX idx_products_user_id ON products(user_id);
+CREATE INDEX idx_products_status ON products(status);
+CREATE INDEX idx_products_create_time ON products(create_time);

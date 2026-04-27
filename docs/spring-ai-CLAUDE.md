@@ -2,7 +2,7 @@
 技术栈
 Java 21 + Spring Boot 3.x
 MyBatis-Plus 持久层
-MySQL 8.0
+PostgreSQL 15+
 Maven 构建
 包结构
 com.example.项目名/ ├── controller/ # 接口层，只做参数校验和调用Service ├── service/ # 业务层，所有业务逻辑在这里 │ └── impl/ # Service实现类 ├── mapper/ # 数据访问层 ├── model/ │ ├── entity/ # 数据库实体 │ ├── dto/ # 请求参数 │ ├── vo/ # 响应结果 │ └── enums/ # 枚举 ├── config/ # 配置类 ├── common/ # 公共组件（统一返回、异常、常量） └── utils/ # 工具类

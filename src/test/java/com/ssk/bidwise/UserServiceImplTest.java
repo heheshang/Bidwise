@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ssk.bidwise.common.exception.BusinessException;
 import com.ssk.bidwise.common.vo.PageVO;
 import com.ssk.bidwise.dal.dataobject.system.UserDO;
-import com.ssk.bidwise.dal.mysql.system.UserMapper;
+import com.ssk.bidwise.dal.postgres.system.UserMapper;
 import com.ssk.bidwise.model.converter.UserConverter;
 import com.ssk.bidwise.model.dto.CreateUserRequest;
 import com.ssk.bidwise.model.dto.UpdateUserRequest;

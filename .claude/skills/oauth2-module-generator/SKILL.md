@@ -11,7 +11,7 @@ description: 输入OAuth2相关实体名，自动生成 DO + Mapper + RedisCache
 
 ## 生成文件（参照企业级目录结构）
 1. dal/dataobject/oauth2/OAuth2XxxDO.java — 数据对象
-2. dal/mysql/oauth2/OAuth2XxxMapper.java — Mapper（继承 ExtBaseMapper）
+2. dal/postgres/oauth2/OAuth2XxxMapper.java — Mapper（继承 ExtBaseMapper）
 3. dal/redis/oauth2/OAuth2XxxRedisCache.java — Redis缓存层（如需要）
 4. service/oauth2/OAuth2XxxService.java — 业务接口（含完整 Javadoc）
 5. service/oauth2/OAuth2XxxServiceImpl.java — 业务实现
@@ -30,3 +30,4 @@ description: 输入OAuth2相关实体名，自动生成 DO + Mapper + RedisCache
 - Controller 用 @Tag + @Operation 标注
 - VO 中用 @NotNull / @NotBlank / @Size 等 JSR 380 注解
 - Converter 用 MapStruct @Mapper + INSTANCE 单例模式
+- 检查代码并编译通过
