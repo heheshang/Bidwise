@@ -1,4 +1,4 @@
-package com.ssk.bidwise.model.entity;
+package com.ssk.bidwise.dal.dataobject.system;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -9,14 +9,24 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * 商品实体
+ * 商品 DO
  */
 @Data
 @TableName("products")
-public class Product {
+public class ProductDO {
 
     @TableId(type = IdType.AUTO)
     private Long id;
+
+    /**
+     * 用户 ID (发布者)
+     */
+    private Long userId;
+
+    /**
+     * 分类 ID
+     */
+    private Long categoryId;
 
     /**
      * 商品名称
@@ -24,14 +34,25 @@ public class Product {
     private String name;
 
     /**
+     * 商品描述
+     */
+    private String description;
+
+    /**
      * 商品价格
      */
     private BigDecimal price;
 
     /**
-     * 库存数量
+     * 库存
      */
     private Integer stock;
+
+    /**
+     * 状态
+     * 0 - 下架，1 - 上架
+     */
+    private Integer status;
 
     /**
      * 创建时间
@@ -45,7 +66,6 @@ public class Product {
 
     /**
      * 逻辑删除
-     * 0 - 未删除，1 - 已删除
      */
     private Integer isDeleted;
 }

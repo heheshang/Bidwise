@@ -5,14 +5,16 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * 用户视图对象 VO
+ * 用户视图 VO
  */
 @Data
 public class UserVO {
 
     private Long id;
-    private String name;
-    private Integer age;
-    private String gender;
+    private String username;
+    private String nickname;
+    private String email;
+    private String avatar;
+    private Integer status;
     private LocalDateTime createTime;
 }

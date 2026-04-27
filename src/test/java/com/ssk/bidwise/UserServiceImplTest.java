@@ -4,12 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ssk.bidwise.common.exception.BusinessException;
 import com.ssk.bidwise.common.vo.PageVO;
+import com.ssk.bidwise.dal.dataobject.system.UserDO;
+import com.ssk.bidwise.dal.mysql.system.UserMapper;
 import com.ssk.bidwise.model.converter.UserConverter;
 import com.ssk.bidwise.model.dto.CreateUserRequest;
 import com.ssk.bidwise.model.dto.UpdateUserRequest;
-import com.ssk.bidwise.model.entity.User;
 import com.ssk.bidwise.model.vo.UserVO;
-import com.ssk.bidwise.mapper.UserMapper;
 import com.ssk.bidwise.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -48,14 +48,14 @@ class UserServiceImplTest {
         Integer page = 1;
         Integer size = 10;
         String keyword = "test";
-        Page<User> pageParam = new Page<>(page, size);
-        List<User> records = Collections.singletonList(createTestUser());
+        Page<UserDO> pageParam = new Page<>(page, size);
+        List<UserDO> records = Collections.singletonList(createTestUser());
         pageParam.setRecords(records);
         pageParam.setTotal(1);
 
         given(userMapper.selectPage(any(Page.class), any(LambdaQueryWrapper.class)))
                 .willReturn(pageParam);
-        given(userConverter.toVO(any(User.class))).willReturn(createTestUserVO());
+        given(userConverter.toVO(any(UserDO.class))).willReturn(createTestUserVO());
 
         // When
         PageVO<UserVO> result = userService.pageQuery(page, size, keyword);
@@ -73,7 +73,7 @@ class UserServiceImplTest {
     void shouldReturnUserVOWhenGetDetailWithExistingId() {
         // Given
         Long id = 1L;
-        User user = createTestUser();
+        UserDO user = createTestUser();
         UserVO userVO = createTestUserVO();
         given(userMapper.selectById(eq(id))).willReturn(user);
         given(userConverter.toVO(eq(user))).willReturn(userVO);
@@ -84,7 +84,7 @@ class UserServiceImplTest {
         // Then
         assertNotNull(result);
         assertEquals(id, result.getId());
-        assertEquals("test", result.getName());
+        assertEquals("test", result.getUsername());
         verify(userMapper).selectById(eq(id));
     }
 
@@ -106,7 +106,7 @@ class UserServiceImplTest {
     void shouldCreateUserWhenValidRequest() {
         // Given
         CreateUserRequest request = createValidCreateRequest();
-        User user = createTestUser();
+        UserDO user = createTestUser();
         UserVO userVO = createTestUserVO();
         given(userConverter.toEntity(eq(request))).willReturn(user);
         given(userMapper.insert(eq(user))).willReturn(1);
@@ -117,7 +117,7 @@ class UserServiceImplTest {
 
         // Then
         assertNotNull(result);
-        assertEquals("test", result.getName());
+        assertEquals("test", result.getUsername());
         verify(userMapper).insert(eq(user));
     }
 
@@ -125,8 +125,9 @@ class UserServiceImplTest {
     void shouldUpdateUserWhenValidRequest() {
         // Given
         UpdateUserRequest request = createValidUpdateRequest();
-        User existing = createTestUser();
+        UserDO existing = createTestUser();
         UserVO userVO = createTestUserVO();
+        userVO.setUsername("updated");
         given(userMapper.selectById(eq(request.getId()))).willReturn(existing);
         given(userMapper.updateById(eq(existing))).willReturn(1);
         given(userConverter.toVO(eq(existing))).willReturn(userVO);
@@ -136,7 +137,7 @@ class UserServiceImplTest {
 
         // Then
         assertNotNull(result);
-        assertEquals(request.getName(), result.getName());
+        assertEquals(request.getUsername(), result.getUsername());
         verify(userMapper).updateById(eq(existing));
     }
 
@@ -157,7 +158,7 @@ class UserServiceImplTest {
     void shouldDeleteUserWhenExistingId() {
         // Given
         Long id = 1L;
-        User user = createTestUser();
+        UserDO user = createTestUser();
         given(userMapper.selectById(eq(id))).willReturn(user);
 
         // When
@@ -180,38 +181,31 @@ class UserServiceImplTest {
         assertEquals(2001, exception.getCode());
     }
 
-    private User createTestUser() {
-        User user = new User();
+    private UserDO createTestUser() {
+        UserDO user = new UserDO();
         user.setId(1L);
-        user.setName("test");
-        user.setAge(20);
-        user.setGender("male");
+        user.setUsername("test");
         return user;
     }
 
     private UserVO createTestUserVO() {
         UserVO vo = new UserVO();
         vo.setId(1L);
-        vo.setName("test");
-        vo.setAge(20);
-        vo.setGender("male");
+        vo.setUsername("test");
         return vo;
     }
 
     private CreateUserRequest createValidCreateRequest() {
         CreateUserRequest request = new CreateUserRequest();
-        request.setName("test");
-        request.setAge(20);
-        request.setGender("male");
+        request.setUsername("test");
+        request.setPassword("password123");
         return request;
     }
 
     private UpdateUserRequest createValidUpdateRequest() {
         UpdateUserRequest request = new UpdateUserRequest();
         request.setId(1L);
-        request.setName("updated");
-        request.setAge(25);
-        request.setGender("female");
+        request.setUsername("updated");
         return request;
     }
 }

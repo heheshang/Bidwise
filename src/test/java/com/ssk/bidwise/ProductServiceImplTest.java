@@ -4,12 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ssk.bidwise.common.exception.BusinessException;
 import com.ssk.bidwise.common.vo.PageVO;
+import com.ssk.bidwise.dal.dataobject.system.ProductDO;
+import com.ssk.bidwise.dal.mysql.system.ProductMapper;
 import com.ssk.bidwise.model.converter.ProductConverter;
 import com.ssk.bidwise.model.dto.CreateProductRequest;
 import com.ssk.bidwise.model.dto.UpdateProductRequest;
-import com.ssk.bidwise.model.entity.Product;
 import com.ssk.bidwise.model.vo.ProductVO;
-import com.ssk.bidwise.mapper.ProductMapper;
 import com.ssk.bidwise.service.impl.ProductServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -49,14 +49,14 @@ class ProductServiceImplTest {
         Integer page = 1;
         Integer size = 10;
         String keyword = "test";
-        Page<Product> pageParam = new Page<>(page, size);
-        List<Product> records = Collections.singletonList(createTestProduct());
+        Page<ProductDO> pageParam = new Page<>(page, size);
+        List<ProductDO> records = Collections.singletonList(createTestProduct());
         pageParam.setRecords(records);
         pageParam.setTotal(1);
 
         given(productMapper.selectPage(any(Page.class), any(LambdaQueryWrapper.class)))
                 .willReturn(pageParam);
-        given(productConverter.toVO(any(Product.class))).willReturn(createTestProductVO());
+        given(productConverter.toVO(any(ProductDO.class))).willReturn(createTestProductVO());
 
         // When
         PageVO<ProductVO> result = productService.pageQuery(page, size, keyword);
@@ -74,7 +74,7 @@ class ProductServiceImplTest {
     void shouldReturnProductVOWhenGetDetailWithExistingId() {
         // Given
         Long id = 1L;
-        Product product = createTestProduct();
+        ProductDO product = createTestProduct();
         ProductVO productVO = createTestProductVO();
         given(productMapper.selectById(eq(id))).willReturn(product);
         given(productConverter.toVO(eq(product))).willReturn(productVO);
@@ -107,7 +107,7 @@ class ProductServiceImplTest {
     void shouldCreateProductWhenValidRequest() {
         // Given
         CreateProductRequest request = createValidCreateRequest();
-        Product product = createTestProduct();
+        ProductDO product = createTestProduct();
         ProductVO productVO = createTestProductVO();
         given(productConverter.toEntity(eq(request))).willReturn(product);
         given(productMapper.insert(eq(product))).willReturn(1);
@@ -126,8 +126,9 @@ class ProductServiceImplTest {
     void shouldUpdateProductWhenValidRequest() {
         // Given
         UpdateProductRequest request = createValidUpdateRequest();
-        Product existing = createTestProduct();
+        ProductDO existing = createTestProduct();
         ProductVO productVO = createTestProductVO();
+        productVO.setName("updated");
         given(productMapper.selectById(eq(request.getId()))).willReturn(existing);
         given(productMapper.updateById(eq(existing))).willReturn(1);
         given(productConverter.toVO(eq(existing))).willReturn(productVO);
@@ -158,7 +159,7 @@ class ProductServiceImplTest {
     void shouldDeleteProductWhenExistingId() {
         // Given
         Long id = 1L;
-        Product product = createTestProduct();
+        ProductDO product = createTestProduct();
         given(productMapper.selectById(eq(id))).willReturn(product);
 
         // When
@@ -181,8 +182,8 @@ class ProductServiceImplTest {
         assertEquals(2001, exception.getCode());
     }
 
-    private Product createTestProduct() {
-        Product product = new Product();
+    private ProductDO createTestProduct() {
+        ProductDO product = new ProductDO();
         product.setId(1L);
         product.setName("test");
         product.setPrice(new BigDecimal("100.00"));

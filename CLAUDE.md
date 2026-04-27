@@ -52,44 +52,58 @@
 
 ---
 
-## 🏗️ 整体目录结构
+## 🏗️ 整体目录结构（统一规范）
 
 ```
 com.ssk.bidwise/
-├── controller/admin/
-│   ├── auth/vo/          # AuthLoginReqVO/AuthLoginRespVO
-│   ├── oauth2/vo/        # OAuth2 开放接口 VO
-│   └── permission/vo/    # RBAC 角色/菜单/权限 VO
-├── service/
-│   ├── auth/impl/        # SysAuthService + Impl
-│   ├── oauth2/           # OAuth2*Service + 各自 Impl
-│   ├── permission/       # RoleService/MenuService/PermissionService + Impl
-│   └── ai/impl/          # Spring AI 服务
-├── dal/
-│   ├── dataobject/
-│   │   ├── oauth2/       # OAuth2*DO
-│   │   └── permission/   # RoleDO/MenuDO/RoleMenuDO/UserRoleDO
-│   ├── mysql/
-│   │   ├── oauth2/       # OAuth2*Mapper
-│   │   └── permission/   # RoleMapper/MenuMapper
-│   └── redis/
-│       ├── oauth2/       # OAuth2*RedisCache
-│       └── permission/   # RoleMenuRedisCache/UserRoleRedisCache
-├── converter/
-│   ├── auth/             # AuthConverter (MapStruct)
-│   ├── oauth2/           # OAuth2OpenConverter
-│   └── permission/       # PermissionConverter
-├── enums/
-│   ├── oauth2/           # OAuth2GrantTypeEnum
-│   └── permission/       # DataScopeEnum/MenuTypeEnum
-├── util/
-│   ├── oauth2/           # OAuth2Helper
-│   └── permission/       # PermissionHelper
-├── mapper/               # 通用 Mapper
-├── model/                # 通用 entity/dto/vo
-├── config/               # 配置类
-├── common/               # result/exception/constant/util
-└── aspect/               # AOP 切面
+├── controller/admin/                     # 管理后台接口
+│   ├── auth/vo/                         # 登录认证 → AuthLoginReqVO/AuthLoginRespVO
+│   ├── oauth2/vo/                       # OAuth2 → 分类存放 VO
+│   │   ├── client/                      # OAuth2ClientSaveReqVO/OAuth2ClientRespVO
+│   │   ├── open/                        # OAuth2OpenAccessTokenRespVO
+│   │   ├── token/                       # OAuth2AccessTokenRespVO
+│   │   └── user/                        # OAuth2UserInfoRespVO
+│   ├── permission/vo/                  # RBAC → 分类存放 VO
+│   │   ├── role/                        # RoleSaveReqVO/RoleRespVO
+│   │   └── menu/                        # MenuSaveReqVO/MenuRespVO
+│   └── [biz-module]/vo/               # 业务模块 → 分类存放 VO
+│
+├── service/                              # 业务逻辑接口
+│   ├── auth/impl/                       # SysAuthService + Impl
+│   ├── oauth2/                          # OAuth2ClientService / OAuth2TokenService / ... + 各自 Impl
+│   ├── permission/                      # RoleService / MenuService / PermissionService + 各自 Impl
+│   ├── [biz-module]/impl/             # 业务模块 Service
+│   └── ai/impl/                        # Spring AI 服务
+│
+├── dal/                                 # 数据访问层
+│   ├── dataobject/                      # 数据对象 DO (对应数据库表)
+│   │   ├── oauth2/                     # OAuth2*DO
+│   │   └── permission/                 # RoleDO / MenuDO / RoleMenuDO / UserRoleDO
+│   ├── mysql/                           # Mapper 接口
+│   │   ├── oauth2/                     # OAuth2*Mapper
+│   │   └── permission/                 # RoleMapper / MenuMapper
+│   └── redis/                           # Redis 缓存层
+│       ├── oauth2/                     # OAuth2*RedisCache
+│       └── permission/                 # RoleMenuRedisCache / UserRoleRedisCache
+│
+├── converter/                            # 对象转换器
+│   ├── auth/                             # AuthConverter (MapStruct)
+│   ├── oauth2/                           # OAuth2OpenConverter
+│   └── permission/                      # PermissionConverter
+│
+├── enums/                               # 枚举
+│   ├── oauth2/                           # OAuth2GrantTypeEnum, OAuth2Consts
+│   └── permission/                      # DataScopeEnum, MenuTypeEnum
+│
+├── util/                                # 工具类
+│   ├── oauth2/                           # OAuth2Helper (HttpServletRequest 解析)
+│   └── permission/                      # PermissionHelper (权限工具)
+│
+├── mapper/                               # ⚠️ 废弃：通用 Mapper 已统一到 dal/mysql/
+├── model/                                # ⚠️ 废弃：通用 entity/dto/vo 已统一到 dal + controller/vo
+├── config/                               # 配置类
+├── common/                               # 通用组件 → result/exception/constant/util
+└── aspect/                               # AOP 切面
 ```
 
 ### 分层职责
@@ -99,7 +113,8 @@ com.ssk.bidwise/
 | Controller | 参数校验 → 调用 Service → 返回 `Result<T>` |
 | Service | 业务逻辑 + 事务控制，写方法加 `@Transactional` |
 | Mapper | CRUD 操作，继承 `BaseMapper<T>` |
-| Model | entity 对应表，dto 入参，vo 出参 |
+| DO | 数据对象，对应数据库表 |
+| VO | 请求/响应视图，存放于 controller 对应模块 vo/ |
 
 **依赖规则**：`Controller → Service → Mapper`，禁止反向/跨层调用
 
@@ -119,13 +134,14 @@ com.ssk.bidwise/
 | Service | `OAuth2XxxService` + `OAuth2XxxServiceImpl` |
 | Mapper | `OAuth2XxxMapper` |
 | Converter | `AuthConverter` |
+| RedisCache | `OAuth2AccessTokenRedisCache` |
 | ErrorCode | `1002020000 ~ 1002020999` (OAuth2 专用) |
 
 ---
 
 ## 🔑 RBAC 权限管理模块
 
-**特性**：经典 RBAC 模型 用户 ↔ 角色 ↔ 菜单，菜单三级结构（目录→菜单→按钮），5种数据权限范围，Redis 权限缓存
+**特性**：经典 RBAC 模型 用户 ↔ 角色 ↔ 菜单，菜单三级结构（目录→菜单→按钮），5 种数据权限范围，Redis 权限缓存
 
 **命名规范**：
 

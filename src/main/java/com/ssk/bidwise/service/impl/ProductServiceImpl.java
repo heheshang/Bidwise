@@ -5,12 +5,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ssk.bidwise.common.exception.BusinessException;
 import com.ssk.bidwise.common.exception.ErrorCode;
 import com.ssk.bidwise.common.vo.PageVO;
+import com.ssk.bidwise.dal.dataobject.system.ProductDO;
+import com.ssk.bidwise.dal.mysql.system.ProductMapper;
 import com.ssk.bidwise.model.converter.ProductConverter;
 import com.ssk.bidwise.model.dto.CreateProductRequest;
 import com.ssk.bidwise.model.dto.UpdateProductRequest;
-import com.ssk.bidwise.model.entity.Product;
 import com.ssk.bidwise.model.vo.ProductVO;
-import com.ssk.bidwise.mapper.ProductMapper;
 import com.ssk.bidwise.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,13 +29,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public PageVO<ProductVO> pageQuery(Integer page, Integer size, String keyword) {
-        Page<Product> pageParam = new Page<>(page, size);
-        LambdaQueryWrapper<Product> wrapper = new LambdaQueryWrapper<>();
+        Page<ProductDO> pageParam = new Page<>(page, size);
+        LambdaQueryWrapper<ProductDO> wrapper = new LambdaQueryWrapper<>();
         if (StringUtils.hasText(keyword)) {
-            wrapper.like(Product::getName, keyword);
+            wrapper.like(ProductDO::getName, keyword);
         }
-        wrapper.orderByDesc(Product::getCreateTime);
-        Page<Product> result = productMapper.selectPage(pageParam, wrapper);
+        wrapper.orderByDesc(ProductDO::getCreateTime);
+        Page<ProductDO> result = productMapper.selectPage(pageParam, wrapper);
 
         PageVO<ProductVO> pageVO = new PageVO<>();
         pageVO.setPage(page);
@@ -49,7 +49,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductVO getDetail(Long id) {
-        Product product = productMapper.selectById(id);
+        ProductDO product = productMapper.selectById(id);
         if (product == null) {
             throw new BusinessException(ErrorCode.DATA_NOT_EXIST, "商品不存在");
         }
@@ -59,7 +59,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ProductVO create(CreateProductRequest request) {
-        Product product = productConverter.toEntity(request);
+        ProductDO product = productConverter.toEntity(request);
         productMapper.insert(product);
         return productConverter.toVO(product);
     }
@@ -67,7 +67,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ProductVO update(UpdateProductRequest request) {
-        Product existing = productMapper.selectById(request.getId());
+        ProductDO existing = productMapper.selectById(request.getId());
         if (existing == null) {
             throw new BusinessException(ErrorCode.DATA_NOT_EXIST, "商品不存在");
         }
@@ -81,7 +81,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(Long id) {
-        Product product = productMapper.selectById(id);
+        ProductDO product = productMapper.selectById(id);
         if (product == null) {
             throw new BusinessException(ErrorCode.DATA_NOT_EXIST, "商品不存在");
         }
