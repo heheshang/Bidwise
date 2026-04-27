@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: Bidwise
+  ai:
+    dashscope:
+        api-key: ${DASHSCOPE_API_KEY}
