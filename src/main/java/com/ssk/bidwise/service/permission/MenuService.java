@@ -1,8 +1,8 @@
 package com.ssk.bidwise.service.permission;
 
+import com.ssk.bidwise.controller.admin.permission.vo.menu.MenuRespVO;
+import com.ssk.bidwise.controller.admin.permission.vo.menu.MenuSaveReqVO;
 import com.ssk.bidwise.dal.dataobject.permission.MenuDO;
-import com.ssk.bidwise.model.vo.permission.menu.MenuRespVO;
-import com.ssk.bidwise.model.vo.permission.menu.MenuSaveReqVO;
 
 import java.util.List;
 

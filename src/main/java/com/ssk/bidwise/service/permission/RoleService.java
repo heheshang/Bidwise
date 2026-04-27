@@ -1,10 +1,10 @@
 package com.ssk.bidwise.service.permission;
 
 import com.ssk.bidwise.common.vo.PageVO;
+import com.ssk.bidwise.controller.admin.permission.vo.role.RolePageReqVO;
+import com.ssk.bidwise.controller.admin.permission.vo.role.RoleRespVO;
+import com.ssk.bidwise.controller.admin.permission.vo.role.RoleSaveReqVO;
 import com.ssk.bidwise.dal.dataobject.permission.RoleDO;
-import com.ssk.bidwise.model.vo.permission.role.RolePageReqVO;
-import com.ssk.bidwise.model.vo.permission.role.RoleRespVO;
-import com.ssk.bidwise.model.vo.permission.role.RoleSaveReqVO;
 
 import java.util.List;
 

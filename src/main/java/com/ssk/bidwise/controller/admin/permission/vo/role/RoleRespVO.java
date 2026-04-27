@@ -1,4 +1,4 @@
-package com.ssk.bidwise.model.vo.permission.role;
+package com.ssk.bidwise.controller.admin.permission.vo.role;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

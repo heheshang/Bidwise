@@ -1,8 +1,8 @@
 package com.ssk.bidwise.converter.permission;
 
+import com.ssk.bidwise.controller.admin.permission.vo.role.RoleRespVO;
+import com.ssk.bidwise.controller.admin.permission.vo.role.RoleSaveReqVO;
 import com.ssk.bidwise.dal.dataobject.permission.RoleDO;
-import com.ssk.bidwise.model.vo.permission.role.RoleRespVO;
-import com.ssk.bidwise.model.vo.permission.role.RoleSaveReqVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

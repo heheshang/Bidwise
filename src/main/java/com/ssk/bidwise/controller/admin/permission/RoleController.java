@@ -2,9 +2,9 @@ package com.ssk.bidwise.controller.admin.permission;
 
 import com.ssk.bidwise.common.result.Result;
 import com.ssk.bidwise.common.vo.PageVO;
-import com.ssk.bidwise.model.vo.permission.role.RolePageReqVO;
-import com.ssk.bidwise.model.vo.permission.role.RoleRespVO;
-import com.ssk.bidwise.model.vo.permission.role.RoleSaveReqVO;
+import com.ssk.bidwise.controller.admin.permission.vo.role.RolePageReqVO;
+import com.ssk.bidwise.controller.admin.permission.vo.role.RoleRespVO;
+import com.ssk.bidwise.controller.admin.permission.vo.role.RoleSaveReqVO;
 import com.ssk.bidwise.service.permission.RoleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

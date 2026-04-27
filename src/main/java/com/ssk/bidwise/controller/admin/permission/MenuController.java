@@ -1,8 +1,8 @@
 package com.ssk.bidwise.controller.admin.permission;
 
 import com.ssk.bidwise.common.result.Result;
-import com.ssk.bidwise.model.vo.permission.menu.MenuRespVO;
-import com.ssk.bidwise.model.vo.permission.menu.MenuSaveReqVO;
+import com.ssk.bidwise.controller.admin.permission.vo.menu.MenuRespVO;
+import com.ssk.bidwise.controller.admin.permission.vo.menu.MenuSaveReqVO;
 import com.ssk.bidwise.service.permission.MenuService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
