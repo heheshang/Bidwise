@@ -19,7 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
  * @author Bidwise
  */
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 public class SecurityConfig {
 
     private final CustomUserDetailsService customUserDetailsService;
@@ -27,18 +27,18 @@ public class SecurityConfig {
     public SecurityConfig(CustomUserDetailsService customUserDetailsService) {
         this.customUserDetailsService = customUserDetailsService;
     }
-
-    /**
-     * 密码编码器
-     */
+//
+//    /**
+//     * 密码编码器
+//     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-    /**
-     * 认证管理器
-     */
+//
+//    /**
+//     * 认证管理器
+//     */
     @Bean
     public AuthenticationManager authenticationManager() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
@@ -47,27 +47,30 @@ public class SecurityConfig {
         return new ProviderManager(provider);
     }
 
-    /**
-     * 安全过滤链配置
-     */
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(csrf -> csrf.disable()) // 开发环境暂时禁用CSRF（生产环境应启用）
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**", "/login", "/register").permitAll() // 允许匿名访问的端点
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll() // API文档
-                        .anyRequest().authenticated() // 其他请求需要认证
-                )
-                .formLogin(form -> form
-                        .permitAll()
-                        .defaultSuccessUrl("/api/dashboard") // 登录成功后的默认跳转页面
-                )
-                .logout(logout -> logout
-                        .permitAll()
-                        .logoutSuccessUrl("/login?logout")
-                );
-
-        return http.build();
-    }
+//    /**
+//     * 安全过滤链配置
+//     */
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http
+//                .csrf(csrf -> csrf.disable()) // 开发环境暂时禁用CSRF（生产环境应启用）
+//                .authorizeHttpRequests(auth -> auth
+//                        .requestMatchers("/api/auth/**", "/login", "/register").permitAll() // 允许匿名访问的端点
+//                        .requestMatchers("/oauth2/**").permitAll() // OAuth2 标准端点（token/authorize/check-token 等）
+//                        .requestMatchers("/api/v1/oauth2/**").permitAll() // OAuth2 管理接口允许匿名访问（开发阶段）
+//                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll() // API文档
+//                        .requestMatchers("/index").permitAll() // 首页
+//                        .anyRequest().authenticated() // 其他请求需要认证
+//                )
+//                .formLogin(form -> form
+//                        .permitAll()
+//                        .defaultSuccessUrl("/index") // 登录成功后的默认跳转页面
+//                )
+//                .logout(logout -> logout
+//                        .permitAll()
+//                        .logoutSuccessUrl("/login?logout")
+//                );
+//
+//        return http.build();
+//    }
 }
